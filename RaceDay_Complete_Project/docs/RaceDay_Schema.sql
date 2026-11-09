@@ -1,0 +1,26 @@
+CREATE TABLE SystemRole (
+    RoleID INT IDENTITY(1,1) PRIMARY KEY,
+    RoleName VARCHAR(50) NOT NULL UNIQUE
+);
+CREATE TABLE AppUser (
+    UserID INT IDENTITY(1,1) PRIMARY KEY,
+    RoleID INT NOT NULL,
+    FirstName VARCHAR(100) NOT NULL,
+    LastName VARCHAR(100) NOT NULL,
+    Email VARCHAR(150) NOT NULL UNIQUE,
+    PasswordHash VARCHAR(255) NOT NULL,
+    ProfileImageUrl VARCHAR(255),
+    CONSTRAINT FK_AppUser_Role FOREIGN KEY (RoleID) REFERENCES SystemRole(RoleID)
+);
+CREATE TABLE Event (
+    EventID INT IDENTITY(1,1) PRIMARY KEY,
+    OrganiserID INT NOT NULL,
+    Name VARCHAR(200) NOT NULL,
+    Description TEXT,
+    EventDate DATETIME NOT NULL,
+    Location VARCHAR(200) NOT NULL,
+    Distance DECIMAL(5,2) NOT NULL,
+    EventType VARCHAR(50) NOT NULL,
+    BannerImageUrl VARCHAR(255),
+    CONSTRAINT FK_Event_Organiser FOREIGN KEY (OrganiserID) REFERENCES AppUser(UserID)
+);
